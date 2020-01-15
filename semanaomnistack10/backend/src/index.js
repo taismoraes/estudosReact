@@ -1,10 +1,21 @@
 //express ajuda na criação das rotas da api
 
 const express = require('express');
+const mongoose = require('mongoose');
+const routes = require('./routes');
 
 const app = express();
 
+mongoose.connect('mongodb+srv://taismoraes:jYqkVMa6cW7JnGB8@cluster0-wphrc.mongodb.net/devRadar?retryWrites=true&w=majority', {
+ useNewUrlParser: true,
+ useUnifiedTopology: true,
+ useFindAndModify: false,
+ useCreateIndex: true,
+});
+
 app.use(express.json());
+app.use(routes);
+
 //Métodos HTTP: get, post, put, delete
 
 //Tipos de parametros:  
@@ -13,9 +24,5 @@ app.use(express.json());
 //Body: req.body(Dados para criação ou alteração d eum registro...)
 
 
-app.post('/users', (request, response) => {
-    console.log(request.body);
-    return response.json({ message : 'Hello Tais'});
-});
 
 app.listen(3333);
