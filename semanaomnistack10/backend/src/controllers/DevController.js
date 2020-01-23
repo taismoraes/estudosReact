@@ -6,7 +6,7 @@ const parseStringAsArray = require('../utils/parseStringAsArray');
 
 module.exports = {
 
-    async index(request, response){
+    async index(request, response) {
         const devs = await Dev.find();
 
         return response.json(devs);
@@ -16,9 +16,8 @@ module.exports = {
         const { github_username, techs, latitude, longitude } = request.body;
 
         let dev = await Dev.findOne({ github_username });
-
-        if (!Dev) {
-
+        
+        if (!dev) {
             const apiResponse = await axios.get(`https://api.github.com/users/${github_username}`);
 
             const { name = login, avatar_url, bio } = apiResponse.data;
@@ -39,15 +38,44 @@ module.exports = {
                 location,
             })
         }
-
         return response.json(dev);
     },
 
-    async update () {
+    async update(request, response) {
+        /* const github_username = request.params.github_username;
+        const {latitude, longitude, techs } = request.body;
+      
+        const techsArray = parseStringAsArray(techs);
 
+        const location = {
+            type: 'Point',
+            coordinates: [longitude, latitude],
+        }
+
+        let dev = await Dev.findOne({ github_username });
+
+        const apiResponse = await axios.get(`https://api.github.com/users/${github_username}`);
+
+        const { name = login, avatar_url, bio } = apiResponse.data;
+
+        dev = await Dev.updateOne({ github_username }, {
+            $set: {
+                techs: techsArray,
+                location,
+                name,
+                avatar_url,
+                bio
+            }
+        }, (err, res) => {
+            if (err)
+                return res.send(err)
+            else
+                return response.json(dev);
+        });
+ */
     },
 
-    async destroy(){
+    async destroy() {
 
     }
 };
